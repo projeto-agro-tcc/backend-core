@@ -1,3 +1,5 @@
+from rest_framework.exceptions import APIException
+
 from enderecos.api.service import EnderecoService
 from telefones.api.service import TelefoneService
 from usuarios.models import Usuario
@@ -12,8 +14,8 @@ class UsuarioService:
         try:
             endereco = EnderecoService.from_dto(objDto)
             telefones = TelefoneService.from_dto(objDto)
-            endereco.save()
-            telefones.save()
+            TelefoneService.save_telefones(telefones)
+            EnderecoService.save_endereco(endereco)
             user = Usuario()
             user.endereco = endereco
             user.telefone = telefones
@@ -25,7 +27,7 @@ class UsuarioService:
             user.set_password(objDto['password'])
             return user
         except:
-            return "error parsing objDto"
+            raise APIException('Problemas converter objeto UsuarioDto')
 
 
     def from_dto_update(objDto, user):
@@ -37,10 +39,10 @@ class UsuarioService:
             user.last_name = objDto['last_name']
             endereco = EnderecoService.from_dto_update(objDto, user.endereco)
             telefones = TelefoneService.from_dto_update(objDto, user.telefone)
-            endereco.save()
-            telefones.save()
+            TelefoneService.save_telefones(telefones)
+            EnderecoService.save_endereco(endereco)
             user.endereco = endereco
             user.telefone = telefones
             return user
         except:
-            return "error parsing objDto"
+            raise APIException('Problemas ao editar Usuário')

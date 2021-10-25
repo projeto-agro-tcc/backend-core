@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from usuarios.api.serializers import UsuarioSerializer
@@ -18,8 +19,7 @@ class UsuariosViewSet(ModelViewSet):
             response = {'message': 'User Created', 'result': serializer.data}
             return Response(response, status=status.HTTP_200_OK)
         except:
-            response = {'message': 'Problemas ao criar usuário'}
-            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+            raise APIException('Problemas ao criar usuário')
 
     def update(self, request, *args, **kwargs):
         try:
