@@ -14,3 +14,10 @@ class TelefoneService:
         telefones.celular = objdto['celular']
         telefones.outro = objdto['outro']
         return telefones
+
+    def from_dto_update(objdto, telefone):
+        telefones = Telefone.objects.filter(id=telefone.id)[0]
+        telefones.residencial = objdto['residencial']
+        telefones.celular = objdto['celular']
+        telefones.outro = objdto['outro']
+        return telefones

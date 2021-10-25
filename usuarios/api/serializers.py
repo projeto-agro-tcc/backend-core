@@ -3,7 +3,6 @@ from rest_framework.serializers import ModelSerializer
 from empresas.api.serializers import EmpresaDtoSerializer
 from enderecos.api.serializers import EnderecoSerializer
 from telefones.api.serializers import TelefoneSerializer
-from usuarios.api.service import UsuarioService
 from usuarios.models import Usuario
 
 

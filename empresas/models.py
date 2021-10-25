@@ -12,7 +12,6 @@ class Empresa(models.Model):
     telefone = models.OneToOneField(Telefone, on_delete=models.CASCADE, null=False)
     status = models.IntegerField(null=True)
 
-
     class Meta:
         db_table = "en_empresas"
 

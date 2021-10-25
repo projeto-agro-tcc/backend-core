@@ -22,3 +22,14 @@ class EnderecoService:
         endereco.cep = objDto['cep']
         endereco.uf = objDto['uf']
         return endereco
+
+    def from_dto_update(objDto, endereco):
+        endereco = Endereco.objects.filter(id=endereco.id)[0]
+        endereco.logradouro = objDto['logradouro']
+        endereco.numero = objDto['numero']
+        endereco.complemento = objDto['complemento']
+        endereco.bairro = objDto['bairro']
+        endereco.cidade = objDto['cidade']
+        endereco.cep = objDto['cep']
+        endereco.uf = objDto['uf']
+        return endereco

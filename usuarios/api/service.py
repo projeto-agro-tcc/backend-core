@@ -9,15 +9,38 @@ class UsuarioService:
         pass
 
     def from_dto(objDto):
-        endereco = EnderecoService.from_dto(objDto)
-        telefones = TelefoneService.from_dto(objDto)
-        endereco.save()
-        telefones.save()
-        user = Usuario()
-        user.endereco = endereco
-        user.telefone = telefones
-        user.cpf = objDto['cpf']
-        user.username = objDto['username']
-        user.first_name = objDto['first_name']
-        user.last_name = objDto['last_name']
-        return user
+        try:
+            endereco = EnderecoService.from_dto(objDto)
+            telefones = TelefoneService.from_dto(objDto)
+            endereco.save()
+            telefones.save()
+            user = Usuario()
+            user.endereco = endereco
+            user.telefone = telefones
+            user.cpf = objDto['cpf']
+            user.email = objDto['email']
+            user.username = objDto['username']
+            user.first_name = objDto['first_name']
+            user.last_name = objDto['last_name']
+            user.set_password(objDto['password'])
+            return user
+        except:
+            return "error parsing objDto"
+
+
+    def from_dto_update(objDto, user):
+        try:
+            user.cpf = objDto['cpf']
+            user.email = objDto['email']
+            user.username = objDto['username']
+            user.first_name = objDto['first_name']
+            user.last_name = objDto['last_name']
+            endereco = EnderecoService.from_dto_update(objDto, user.endereco)
+            telefones = TelefoneService.from_dto_update(objDto, user.telefone)
+            endereco.save()
+            telefones.save()
+            user.endereco = endereco
+            user.telefone = telefones
+            return user
+        except:
+            return "error parsing objDto"
