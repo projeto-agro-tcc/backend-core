@@ -10,7 +10,7 @@ class Empresa(models.Model):
     web_site = models.CharField(max_length=200)
     endereco = models.OneToOneField(Endereco, on_delete=models.CASCADE, null=False)
     telefone = models.OneToOneField(Telefone, on_delete=models.CASCADE, null=False)
-    status = models.IntegerField(null=True)
+    status = models.IntegerField(default=1)
 
     class Meta:
         db_table = "en_empresas"

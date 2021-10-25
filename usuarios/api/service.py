@@ -18,13 +18,9 @@ class UsuarioService:
             raise CustomValidation(error, 'detail', status_code=status.HTTP_409_CONFLICT)
 
         try:
-            endereco = EnderecoService.from_dto(objDto)
-            telefones = TelefoneService.from_dto(objDto)
-            TelefoneService.save_telefones(telefones)
-            EnderecoService.save_endereco(endereco)
             user = Usuario()
-            user.endereco = endereco
-            user.telefone = telefones
+            user.endereco = EnderecoService.from_dto(objDto)
+            user.telefone = TelefoneService.from_dto(objDto)
             user.cpf = objDto['cpf']
             user.email = objDto['email']
             user.username = objDto['username']
@@ -33,7 +29,7 @@ class UsuarioService:
             user.set_password(objDto['password'])
             return user
         except Exception as error:
-            raise error
+            raise CustomValidation(error, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
 
     def from_dto_update(objDto, user):
@@ -65,6 +61,8 @@ class UsuarioService:
 
     def save_usuario(usuario):
         try:
+            TelefoneService.save_telefones(usuario.telefone)
+            EnderecoService.save_endereco(usuario.endereco)
             usuario.save()
         except:
             raise CustomValidation("Erro ao salvar usuário", 'detail', status_code=status.HTTP_409_CONFLICT)
