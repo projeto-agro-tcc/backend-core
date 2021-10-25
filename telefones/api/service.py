@@ -1,6 +1,8 @@
-from rest_framework.exceptions import APIException
+from rest_framework import status
+from rest_framework.exceptions import ValidationError, APIException
 
 from telefones.models import Telefone
+from utils.exceptions.catalogo_exceptions import CustomValidation
 
 
 class TelefoneService:
@@ -18,7 +20,7 @@ class TelefoneService:
             telefones.outro = objdto['outro']
             return telefones
         except:
-            raise APIException('Erro parse telefones')
+            raise CustomValidation("Erro ao parse telefones", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
     def from_dto_update(objdto, telefone):
         try:
@@ -28,10 +30,10 @@ class TelefoneService:
             telefones.outro = objdto['outro']
             return telefones
         except:
-            raise APIException('Erro parse telefones')
+            raise CustomValidation("Erro ao parse telefones", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
     def save_telefones(telefones):
         try:
             telefones.save()
         except:
-            raise APIException('Problemas ao cadastar telefone')
+            raise CustomValidation("Erro ao salvar telefone", 'detail', status_code=status.HTTP_409_CONFLICT)

@@ -1,6 +1,6 @@
-from rest_framework.exceptions import APIException
-
+from rest_framework import status
 from enderecos.models import Endereco
+from utils.exceptions.catalogo_exceptions import CustomValidation
 
 
 class EnderecoService:
@@ -26,7 +26,7 @@ class EnderecoService:
             endereco.uf = objDto['uf']
             return endereco
         except:
-            raise APIException('Erro parse endereço')
+            raise CustomValidation("Erro ao parse endereço", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
     def from_dto_update(objDto, endereco):
         try:
@@ -40,10 +40,10 @@ class EnderecoService:
             endereco.uf = objDto['uf']
             return endereco
         except:
-            raise APIException('Erro parse endereço')
+            raise CustomValidation("Erro ao parse endereço", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
     def save_endereco(endereco):
         try:
             endereco.save()
         except:
-            raise APIException('Problemas ao cadastar endereço')
+            raise CustomValidation("Erro ao salvar endereço", 'detail', status_code=status.HTTP_409_CONFLICT)
