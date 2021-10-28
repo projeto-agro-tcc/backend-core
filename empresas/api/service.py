@@ -12,6 +12,10 @@ class EmpresaService:
         pass
 
     def from_dto(objDto):
+        error = EmpresaService.validate_empresa(objDto)
+        if error:
+            raise CustomValidation(error, 'detail', status_code=status.HTTP_409_CONFLICT)
+
         try:
             empresa = Empresa()
             empresa.endereco = EnderecoService.from_dto(objDto)
@@ -44,3 +48,13 @@ class EmpresaService:
             empresa.save()
         except Exception as error:
             raise CustomValidation(error, 'detail', status_code=status.HTTP_409_CONFLICT)
+
+    def validate_empresa(objDto):
+        error = []
+        if Empresa.objects.filter(cnpj=objDto['cnpj']).exists():
+            error.append("CNPJ is not unique")
+        if Empresa.objects.filter(email=objDto['email']).exists():
+            error.append("email is not unique")
+        if Empresa.objects.filter(web_site=objDto['web_site']).exists():
+            error.append("web_site is not unique")
+        return error
