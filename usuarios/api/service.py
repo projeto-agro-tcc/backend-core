@@ -1,6 +1,4 @@
 from rest_framework import status
-from rest_framework.exceptions import APIException
-
 from enderecos.api.service import EnderecoService
 from telefones.api.service import TelefoneService
 from usuarios.models import Usuario

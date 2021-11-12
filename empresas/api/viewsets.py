@@ -1,17 +1,21 @@
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from empresas.models import Empresa
 from utils.exceptions.catalogo_exceptions import CustomValidation
 from .serializers import EmpresaSerializer
 from .service import EmpresaService
+from utils.permissions.permissions import authenticated_user, allowed_users_by_group
 
 
 class EmpresasViewSet(ModelViewSet):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
+    authentication_classes = (TokenAuthentication,)
 
-
+    @authenticated_user
+    @allowed_users_by_group(allowed_roles=['admin', 'high_user'])
     def create(self, request, *arg, **kwargs):
         try:
             empresa = EmpresaService.from_dto(request.data)
@@ -22,6 +26,9 @@ class EmpresasViewSet(ModelViewSet):
         except Exception as error:
             raise CustomValidation(error, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
+
+    @authenticated_user
+    @allowed_users_by_group(allowed_roles=['admin', 'high_user'])
     def update(self, request, *args, **kwargs):
         try:
             empresa = Empresa.objects.filter(id=kwargs['pk'])[0]
