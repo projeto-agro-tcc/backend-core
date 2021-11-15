@@ -58,3 +58,10 @@ class EmpresaService:
         if Empresa.objects.filter(web_site=objDto['web_site']).exists():
             error.append("web_site is not unique")
         return error
+
+    def delete_empresa(empresa):
+        try:
+            empresa.status = 0
+            empresa.save()
+        except:
+            raise CustomValidation("Erro ao deletar empresa", 'detail', status_code=status.HTTP_409_CONFLICT)

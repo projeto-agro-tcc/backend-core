@@ -64,3 +64,10 @@ class UsuarioService:
             usuario.save()
         except:
             raise CustomValidation("Erro ao salvar usuário", 'detail', status_code=status.HTTP_409_CONFLICT)
+
+    def delete_user(usuario):
+        try:
+            usuario.is_active = False
+            usuario.save()
+        except:
+            raise CustomValidation("Erro ao deletar usuário", 'detail', status_code=status.HTTP_409_CONFLICT)
