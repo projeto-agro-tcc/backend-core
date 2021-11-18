@@ -51,8 +51,14 @@ class EmpresasViewSet(ModelViewSet):
             raise CustomValidation(err, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
     @authenticated_user
-    @allowed_users_by_group(allowed_roles=['admin', 'super_user'])
     def list(self, request, *args, **kwargs):
-        queryset = Empresa.objects.filter(status=1)
-        serializer = EmpresaSerializer(queryset, many=True)
-        return Response(serializer.data)
+        role_list = request.user.groups.all()
+        for role in role_list:
+            if role.name in ['admin', 'super_user']:
+                queryset = Empresa.objects.filter(status=1)
+                serializer = EmpresaSerializer(queryset, many=True)
+                return Response(serializer.data)
+        else:
+            queryset = Empresa.objects.filter(status=1).filter(usuario=request.user)
+            serializer = EmpresaSerializer(queryset, many=True)
+            return Response(serializer.data)
