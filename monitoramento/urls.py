@@ -6,10 +6,12 @@ from utils.CustomAuthToken import *
 
 from empresas.api.viewsets import EmpresasViewSet
 from usuarios.api.viewsets import UsuariosViewSet
+from previsao.api.viewsets import PrevisaoViewSet
 
 router = routers.DefaultRouter()
 router.register('empresas', EmpresasViewSet, basename='Empresas')
 router.register('usuarios', UsuariosViewSet, basename='Usuarios')
+router.register('previsao', PrevisaoViewSet, basename='Previsao')
 
 urlpatterns = [
     path('', include(router.urls)),
