@@ -15,7 +15,7 @@ class EmpresaSerializer(ModelSerializer):
 
     class Meta:
         model = Empresa
-        fields = ('id', 'nome', 'email', 'web_site', 'cultivos', 'endereco', 'telefone', 'estacoes')
+        fields = ('id', 'nome', 'email', 'web_site', 'razao_social', 'cultivos', 'endereco', 'telefone', 'estacoes')
 
 
 class EmpresaDtoSerializer(ModelSerializer):

@@ -44,7 +44,7 @@ class UsuariosViewSet(ModelViewSet):
     @authenticated_user
     @allowed_users_by_group(allowed_roles=['admin', 'super_user'])
     def list(self, request, *args, **kwargs):
-        queryset = Usuario.objects.filter()
+        queryset = Usuario.objects.filter(is_active=1)
         serializer = UsuarioSerializer(queryset, many=True)
         return Response(serializer.data)
 

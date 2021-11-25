@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from empresas.models import Empresa
@@ -26,7 +27,6 @@ class EmpresasViewSet(ModelViewSet):
         except Exception as error:
             raise CustomValidation(error, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
-
     @authenticated_user
     @allowed_users_by_group(allowed_roles=['admin', 'high_user', 'super_user'])
     def update(self, request, *args, **kwargs):
@@ -50,6 +50,8 @@ class EmpresasViewSet(ModelViewSet):
         except Exception as err:
             raise CustomValidation(err, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
+    # Verifica se usuário é super admin
+    # caso sim retorna todas as empresas do contrário retorna suas empresas cadastradas
     @authenticated_user
     def list(self, request, *args, **kwargs):
         role_list = request.user.groups.all()
@@ -62,3 +64,10 @@ class EmpresasViewSet(ModelViewSet):
             queryset = Empresa.objects.filter(status=1).filter(usuario=request.user)
             serializer = EmpresaSerializer(queryset, many=True)
             return Response(serializer.data)
+
+    @authenticated_user
+    @action(detail=False, methods=['GET'])
+    def get_users_by_idempresa(self, request):
+        print("Endpoint acessado")
+        response = {'message': 'It is working'}
+        return Response(response, status=status.HTTP_200_OK)

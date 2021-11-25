@@ -1,8 +1,11 @@
+from functools import wraps
+
 from rest_framework import status
 from utils.exceptions.catalogo_exceptions import CustomValidation
 
 
 def authenticated_user(view_func):
+    @wraps(view_func)
     def wrapper_func(request, *args, **kwargs):
         if request.request.user.is_authenticated:
             return view_func(request, *args, **kwargs)
