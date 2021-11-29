@@ -10,7 +10,7 @@ class Usuario(AbstractUser):
     status = models.IntegerField(default=1)
     endereco = models.OneToOneField(Endereco, on_delete=models.CASCADE, null=True, blank=True)
     telefone = models.OneToOneField(Telefone, on_delete=models.CASCADE, null=True, blank=True, unique=True)
-    empresas = models.ManyToManyField(Empresa, blank=True, null=True)
+    empresas = models.ManyToManyField(Empresa, blank=True, null=True, related_name='usuario')
 
     class Meta:
         db_table = "en_usuarios"

@@ -66,8 +66,9 @@ class EmpresasViewSet(ModelViewSet):
             return Response(serializer.data)
 
     @authenticated_user
-    @action(detail=False, methods=['GET'])
-    def get_users_by_idempresa(self, request):
+    @action(detail=True)
+    def get_users_by_idempresa(self, request, pk=None):
         print("Endpoint acessado")
+        print(pk)
         response = {'message': 'It is working'}
         return Response(response, status=status.HTTP_200_OK)

@@ -77,9 +77,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'monitoramento',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'USER': 'superuser',
+        'PASSWORD': 'monitoramento2021',
+        'HOST': 'monitoramentodb.cmvvjnbnc6je.sa-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
