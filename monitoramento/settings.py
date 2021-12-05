@@ -77,8 +77,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'monitoramento',
-        'USER': 'root',
-        'PASSWORD': '123456',
+        'USER': 'admin',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306',
     }
