@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-i1&v#t3h4ndjonlekuxh^3y+7%h*@(b&ej780tjvd$(+voiluc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['monitoramento-env.eba-sk3bsb2d.sa-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['monitoramento-env.eba-sk3bsb2d.sa-east-1.elasticbeanstalk.com', 'localhost']
 
 # Application definition
 INSTALLED_APPS = [
@@ -74,12 +74,20 @@ WSGI_APPLICATION = 'monitoramento.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'monitoramento',
+    #     'USER': 'superuser',
+    #     'PASSWORD': 'monitoramento2021',
+    #     'HOST': 'monitoramentodb.cmvvjnbnc6je.sa-east-1.rds.amazonaws.com',
+    #     'PORT': '3306',
+    # },
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'monitoramento',
-        'USER': 'superuser',
-        'PASSWORD': 'monitoramento2021',
-        'HOST': 'monitoramentodb.cmvvjnbnc6je.sa-east-1.rds.amazonaws.com',
+        'USER': 'admin',
+        'PASSWORD': 'monitoramento',
+        'HOST': 'database-1.cmvvjnbnc6je.sa-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
