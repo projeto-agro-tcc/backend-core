@@ -17,3 +17,13 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return self.username
+
+class TokenApiExterna(models.Model):
+    nome_api = models.CharField(max_length=200)
+    token = models.CharField(max_length=512)
+
+    class Meta:
+        db_table = "en_token_api_externa"
+
+    def __str__(self):
+        return self.nome_api
