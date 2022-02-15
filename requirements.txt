@@ -34,7 +34,9 @@ jmespath==0.10.0
 jsonschema==3.2.0
 MarkupSafe==2.0.1
 mysqlclient==2.0.3
+numpy==1.22.2
 packaging==21.2
+pandas==1.4.1
 paramiko==2.8.1
 pathspec==0.5.9
 protobuf==3.17.3
@@ -59,5 +61,3 @@ uritemplate==4.1.1
 urllib3==1.26.7
 wcwidth==0.1.9
 websocket-client==0.59.0
-
-pandas==1.4.1

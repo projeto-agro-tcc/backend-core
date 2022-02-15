@@ -87,12 +87,21 @@ WSGI_APPLICATION = 'monitoramento.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'monitoramento',
+    #     'USER': 'root',
+    #     'PASSWORD': '123456',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # }
+
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'monitoramento',
         'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'PASSWORD': '2021monitoramento',
+        'HOST': 'monitoramento.csmwyo4wds2l.sa-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }

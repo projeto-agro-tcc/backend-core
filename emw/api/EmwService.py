@@ -1,4 +1,4 @@
-from monitoramento.enviroments import API_IOT
+from monitoramento.enviroments import API_IOT, API_IA
 from datetime import datetime
 import requests
 import pandas as pd
@@ -30,3 +30,12 @@ class EmwService:
         for index, row in data_frame_grouped.iterrows():
             data.append({"time": str(index), "value": row.value})
         return data
+
+    def getPrediction(time_to_end, dev_id, colection, type_forecast):
+        time_to_end += "000000"
+        response = requests.get(API_IA +
+                                "?timetoend=" + time_to_end +
+                                "&dev_id=" + dev_id +
+                                "&var=" + colection +
+                                "&typeforecast=" + type_forecast)
+        return response
