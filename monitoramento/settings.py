@@ -15,6 +15,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
     'corsheaders',
     'enderecos',
     'telefones',
@@ -32,6 +43,8 @@ INSTALLED_APPS = [
     'cultivos',
     'estacoes',
     'empresas',
+    'emw',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
