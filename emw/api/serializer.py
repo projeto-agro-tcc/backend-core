@@ -6,3 +6,8 @@ class EmwSerializer(serializers.Serializer):
     unit = serializers.IntegerField()
     value = serializers.FloatField()
     dev_id = serializers.CharField(max_length=256)
+
+
+class EmxSampleSerializer(serializers.Serializer):
+    time = serializers.CharField(max_length=256)
+    value = serializers.FloatField()
