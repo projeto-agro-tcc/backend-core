@@ -60,6 +60,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
+    'backend-core-env.eba-tm9q638y.sa-east-1.elasticbeanstalk.com'
 ]
 
 ROOT_URLCONF = 'monitoramento.urls'
