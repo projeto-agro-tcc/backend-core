@@ -12,7 +12,7 @@ class TelefoneService:
         self.celular = celular
         self.outro = outro
 
-    def from_dto(objdto):
+    def from_dto(self, objdto):
         try:
             telefones = Telefone()
             telefones.residencial = objdto['residencial']
@@ -22,7 +22,7 @@ class TelefoneService:
         except:
             raise CustomValidation("Erro ao parse telefones", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
-    def from_dto_update(objdto, telefone):
+    def from_dto_update(self, objdto, telefone):
         try:
             telefones = Telefone.objects.filter(id=telefone.id)[0]
             telefones.residencial = objdto['residencial']
@@ -32,7 +32,7 @@ class TelefoneService:
         except:
             raise CustomValidation("Erro ao parse telefones", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
-    def save_telefones(telefones):
+    def save_telefones(self, telefones):
         try:
             telefones.save()
         except:

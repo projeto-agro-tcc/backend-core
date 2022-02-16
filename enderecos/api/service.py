@@ -14,7 +14,7 @@ class EnderecoService:
         self.cep = cep
         self.uf = uf
 
-    def from_dto(objDto):
+    def from_dto(self, objDto):
         try:
             endereco = Endereco()
             endereco.logradouro = objDto['logradouro']
@@ -28,7 +28,7 @@ class EnderecoService:
         except:
             raise CustomValidation("Erro ao parse endereço", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
-    def from_dto_update(objDto, endereco):
+    def from_dto_update(self, objDto, endereco):
         try:
             endereco = Endereco.objects.filter(id=endereco.id)[0]
             endereco.logradouro = objDto['logradouro']
@@ -42,7 +42,7 @@ class EnderecoService:
         except:
             raise CustomValidation("Erro ao parse endereço", 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
-    def save_endereco(endereco):
+    def save_endereco(self, endereco):
         try:
             endereco.save()
         except:

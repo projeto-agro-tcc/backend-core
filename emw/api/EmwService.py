@@ -5,12 +5,13 @@ from datetime import datetime
 import requests
 import pandas as pd
 
+
 class EmwService:
 
     def __init__(self):
         pass
 
-    def getDataByParams(time_to_start, time_to_end, dev_id, colection):
+    def getDataByParams(self, time_to_start, time_to_end, dev_id, colection):
         try:
             time_to_start += "000000"
             time_to_end += "000000"
@@ -23,7 +24,7 @@ class EmwService:
         except Exception:
             raise Exception("error verify if api IOT is up")
 
-    def getSamples(samples):
+    def getSamples(self, samples):
         times = []
         values = []
         data = []
@@ -36,7 +37,7 @@ class EmwService:
             data.append({"time": str(index), "value": row.value})
         return data
 
-    def getPrediction(time_to_end, dev_id, colection, type_forecast):
+    def getPrediction(self, time_to_end, dev_id, colection, type_forecast):
         try:
             estacao = Estacao.objects.filter(serial_number=dev_id).first()
             time_to_end += "000000"

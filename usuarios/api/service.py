@@ -1,24 +1,23 @@
-from rest_framework import status
 from enderecos.api.service import EnderecoService
 from telefones.api.service import TelefoneService
 from usuarios.models import Usuario
-from utils.exceptions.catalogo_exceptions import CustomValidation
 
 
 class UsuarioService:
 
     def __init__(self):
-        pass
+        self.endereco_service = EnderecoService()
+        self.telefone_service = TelefoneService()
 
-    def from_dto(objDto):
-        error = UsuarioService.validate_user_and_password(objDto)
+    def from_dto(self, objDto):
+        error = UsuarioService.validate_user_and_password(self, objDto)
         if error:
-            raise CustomValidation(error, 'detail', status_code=status.HTTP_409_CONFLICT)
+            raise Exception(error)
 
         try:
             user = Usuario()
-            user.endereco = EnderecoService.from_dto(objDto)
-            user.telefone = TelefoneService.from_dto(objDto)
+            user.endereco = self.endereco_service.from_dto(objDto)
+            user.telefone = self.telefone_service.from_dto(objDto)
             user.cpf = objDto['cpf']
             user.email = objDto['email']
             user.username = objDto['username']
@@ -27,27 +26,27 @@ class UsuarioService:
             user.set_password(objDto['password'])
             return user
         except Exception as error:
-            raise CustomValidation(error, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
+            raise Exception("Problems saving user")
 
 
-    def from_dto_update(objDto, user):
+    def from_dto_update(self, objDto, user):
         try:
             user.cpf = objDto['cpf']
             user.email = objDto['email']
             user.username = objDto['username']
             user.first_name = objDto['first_name']
             user.last_name = objDto['last_name']
-            endereco = EnderecoService.from_dto_update(objDto, user.endereco)
-            telefones = TelefoneService.from_dto_update(objDto, user.telefone)
-            TelefoneService.save_telefones(telefones)
-            EnderecoService.save_endereco(endereco)
+            endereco = self.endereco_service.from_dto_update(objDto, user.endereco)
+            telefones = self.telefone_service.from_dto_update(objDto, user.telefone)
+            self.telefone_service.save_telefones(telefones)
+            self.endereco_service.save_endereco(endereco)
             user.endereco = endereco
             user.telefone = telefones
             return user
-        except Exception as error:
-            raise error
+        except Exception:
+            raise Exception("Problem updating user")
 
-    def validate_user_and_password(objDto):
+    def validate_user_and_password(self, objDto):
         error = []
         if Usuario.objects.filter(username=objDto['username']).exists():
             error.append("Username is not unique")
@@ -57,17 +56,14 @@ class UsuarioService:
             error.append("CPF is not unique")
         return error
 
-    def save_usuario(usuario):
-        try:
-            TelefoneService.save_telefones(usuario.telefone)
-            EnderecoService.save_endereco(usuario.endereco)
-            usuario.save()
-        except:
-            raise CustomValidation("Erro ao salvar usuário", 'detail', status_code=status.HTTP_409_CONFLICT)
+    def save_usuario(self, usuario):
+        self.telefone_service.save_telefones(usuario.telefone)
+        self.endereco_service.save_endereco(usuario.endereco)
+        usuario.save()
 
-    def delete_user(usuario):
+    def delete_user(self, usuario):
         try:
             usuario.is_active = False
             usuario.save()
         except:
-            raise CustomValidation("Erro ao deletar usuário", 'detail', status_code=status.HTTP_409_CONFLICT)
+            raise Exception("Problem to delete user")

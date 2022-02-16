@@ -12,6 +12,7 @@ from utils.exceptions.catalogo_exceptions import CustomValidation
 
 
 class EmwViewSet(ModelViewSet):
+    emw_service = EmwService()
 
     @action(detail=False, methods=['GET'])
     def findbyparams(self, request, *args, **kwargs):
@@ -23,7 +24,7 @@ class EmwViewSet(ModelViewSet):
             if (time_to_start and dev_id and colection) is not None:
                 if time_to_end is None:
                     time_to_end = datetime.now().timestamp()
-                response = EmwService.getDataByParams(time_to_start, time_to_end, dev_id, colection)
+                response = self.emw_service.getDataByParams(time_to_start, time_to_end, dev_id, colection)
                 result_data = EmwSerializer(json.loads(response.text), many=True).data
                 return Response(result_data, status=status.HTTP_200_OK)
             raise Exception("Verify fields")
@@ -40,8 +41,8 @@ class EmwViewSet(ModelViewSet):
             if (time_to_start and dev_id and colection) is not None:
                 if time_to_end is None:
                     time_to_end = datetime.now().timestamp()
-                response_json = json.loads(EmwService.getDataByParams(time_to_start, time_to_end, dev_id, colection).text)
-                response = EmwService.getSamples(response_json)
+                response_json = json.loads(self.emw_service.getDataByParams(time_to_start, time_to_end, dev_id, colection).text)
+                response = self.emw_service.getSamples(response_json)
                 result_data = EmxSampleSerializer(response, many=True).data
                 return Response(result_data, status=status.HTTP_200_OK)
             raise Exception("Verify fields")
@@ -56,7 +57,7 @@ class EmwViewSet(ModelViewSet):
             colection = request.query_params.get('var')
             type_forecast = request.query_params.get('typeforecast')
             if (time_to_end and dev_id and colection and type_forecast) is not None:
-                response_json = json.loads(EmwService.getPrediction(time_to_end, dev_id, colection, type_forecast).text)
+                response_json = json.loads(self.emw_service.getPrediction(time_to_end, dev_id, colection, type_forecast).text)
                 result_data = EmxSampleSerializer(response_json, many=True).data
                 return Response(result_data, status=status.HTTP_200_OK)
             raise Exception("Verify fields")

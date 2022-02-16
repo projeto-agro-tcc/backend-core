@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-i1&v#t3h4ndjonlekuxh^3y+7%h*@(b&ej780tjvd$(+voiluc
 DEBUG = True
 
 ALLOWED_HOSTS = ['backend-core-env.eba-tm9q638y.sa-east-1.elasticbeanstalk.com',
-                 '127.0.0.1']
+                 '127.0.0.1', 'localhost']
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
@@ -88,23 +88,23 @@ WSGI_APPLICATION = 'monitoramento.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'monitoramento',
-    #     'USER': 'root',
-    #     'PASSWORD': '123456',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    # }
-
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'monitoramento',
         'USER': 'root',
-        'PASSWORD': '2021monitoramento',
-        'HOST': 'monitoramento.csmwyo4wds2l.sa-east-1.rds.amazonaws.com',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'monitoramento',
+    #     'USER': 'root',
+    #     'PASSWORD': '2021monitoramento',
+    #     'HOST': 'monitoramento.csmwyo4wds2l.sa-east-1.rds.amazonaws.com',
+    #     'PORT': '3306',
+    # }
 }
 
 

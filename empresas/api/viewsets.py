@@ -14,13 +14,14 @@ class EmpresasViewSet(ModelViewSet):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
     authentication_classes = (TokenAuthentication,)
+    empresa_service = EmpresaService()
 
     @authenticated_user
     @allowed_users_by_group(allowed_roles=['admin', 'super_user'])
     def create(self, request, *arg, **kwargs):
         try:
-            empresa = EmpresaService.from_dto(request.data)
-            EmpresaService.save_empresa(empresa)
+            empresa = self.empresa_service.from_dto(request.data)
+            self.empresa_service.save_empresa(empresa)
             serializer = EmpresaSerializer(empresa)
             response = {'message': 'Empresa Created', 'result': serializer.data}
             return Response(response, status=status.HTTP_200_OK)
@@ -32,8 +33,8 @@ class EmpresasViewSet(ModelViewSet):
     def update(self, request, *args, **kwargs):
         try:
             empresa = Empresa.objects.filter(id=kwargs['pk'])[0]
-            empresa = EmpresaService.from_dto_update(request.data, empresa)
-            EmpresaService.save_empresa(empresa)
+            empresa = self.empresa_service.from_dto_update(request.data, empresa)
+            self.empresa_service.save_empresa(empresa)
             serializer = EmpresaSerializer(empresa)
             response = {'message': 'Empresa Updated', 'result': serializer.data}
             return Response(response, status=status.HTTP_200_OK)
@@ -45,7 +46,7 @@ class EmpresasViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         try:
             empresa = Empresa.objects.filter(id=kwargs['pk'])[0]
-            EmpresaService.delete_empresa(empresa)
+            self.empresa_service.delete_empresa(empresa)
             return Response(status=status.HTTP_200_OK)
         except Exception as err:
             raise CustomValidation(err, 'detail', status_code=status.HTTP_400_BAD_REQUEST)

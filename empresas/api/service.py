@@ -1,55 +1,53 @@
-from rest_framework import status
-
 from empresas.models import Empresa
 from enderecos.api.service import EnderecoService
 from telefones.api.service import TelefoneService
-from utils.exceptions.catalogo_exceptions import CustomValidation
 
 
 class EmpresaService:
 
     def __init__(self):
-        pass
+        self.endereco_service = EnderecoService()
+        self.telefone_service = TelefoneService()
 
-    def from_dto(objDto):
-        error = EmpresaService.validate_empresa(objDto)
+    def from_dto(self, objDto):
+        error = self.validate_empresa(objDto)
         if error:
             raise Exception(error)
 
         try:
             empresa = Empresa()
-            empresa.endereco = EnderecoService.from_dto(objDto)
-            empresa.telefone = TelefoneService.from_dto(objDto)
+            empresa.endereco = self.endereco_service.from_dto(objDto)
+            empresa.telefone = self.telefone_service.from_dto(objDto)
             empresa.nome = objDto['nome']
             empresa.cnpj = objDto['cnpj']
             empresa.email = objDto['email']
             empresa.web_site = objDto['web_site']
             return empresa
-        except Exception as error:
-            raise CustomValidation(error, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            raise Exception("Problems convert empresa dto")
 
-    def from_dto_update(objDto, empresa):
+    def from_dto_update(self, objDto, empresa):
         try:
             empresa = Empresa.objects.filter(id=empresa.id)[0]
-            empresa.endereco = EnderecoService.from_dto_update(objDto, empresa.endereco)
-            empresa.telefone = TelefoneService.from_dto_update(objDto, empresa.telefone)
+            empresa.endereco = self.endereco_service.from_dto_update(objDto, empresa.endereco)
+            empresa.telefone = self.telefone_service.from_dto_update(objDto, empresa.telefone)
             empresa.nome = objDto['nome']
             empresa.cnpj = objDto['cnpj']
             empresa.email = objDto['email']
             empresa.web_site = objDto['web_site']
             return empresa
-        except Exception as error:
-            raise CustomValidation(error, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            raise Exception("Problems convert empresa dto")
 
-    def save_empresa(empresa):
+    def save_empresa(self, empresa):
         try:
-            TelefoneService.save_telefones(empresa.telefone)
-            EnderecoService.save_endereco(empresa.endereco)
+            self.telefone_service.save_telefones(empresa.telefone)
+            self.endereco_service.save_endereco(empresa.endereco)
             empresa.save()
-        except Exception as error:
-            raise CustomValidation(error, 'detail', status_code=status.HTTP_409_CONFLICT)
+        except Exception:
+            raise Exception("Problems to save empresa")
 
-    def validate_empresa(objDto):
+    def validate_empresa(self, objDto):
         error = []
         if Empresa.objects.filter(cnpj=objDto['cnpj']).exists():
             error.append("CNPJ is not unique")
@@ -59,9 +57,9 @@ class EmpresaService:
             error.append("web_site is not unique")
         return error
 
-    def delete_empresa(empresa):
+    def delete_empresa(self, empresa):
         try:
             empresa.status = 0
             empresa.save()
         except:
-            raise CustomValidation("Erro ao deletar empresa", 'detail', status_code=status.HTTP_409_CONFLICT)
+            raise Exception("Error to delete empresa")
