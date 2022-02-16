@@ -26,8 +26,7 @@ class EmwViewSet(ModelViewSet):
                 response = EmwService.getDataByParams(time_to_start, time_to_end, dev_id, colection)
                 result_data = EmwSerializer(json.loads(response.text), many=True).data
                 return Response(result_data, status=status.HTTP_200_OK)
-            else:
-                return Response({"detail": "Verify the fields"}, status=status.HTTP_400_BAD_REQUEST)
+            raise Exception("Verify fields")
         except Exception as err:
             raise CustomValidation(err, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
@@ -45,8 +44,7 @@ class EmwViewSet(ModelViewSet):
                 response = EmwService.getSamples(response_json)
                 result_data = EmxSampleSerializer(response, many=True).data
                 return Response(result_data, status=status.HTTP_200_OK)
-            else:
-                return Response({"detail": "Verify the fields"}, status=status.HTTP_400_BAD_REQUEST)
+            raise Exception("Verify fields")
         except Exception as err:
             raise CustomValidation(err, 'detail', status_code=status.HTTP_400_BAD_REQUEST)
 
@@ -61,5 +59,6 @@ class EmwViewSet(ModelViewSet):
                 response_json = json.loads(EmwService.getPrediction(time_to_end, dev_id, colection, type_forecast).text)
                 result_data = EmxSampleSerializer(response_json, many=True).data
                 return Response(result_data, status=status.HTTP_200_OK)
+            raise Exception("Verify fields")
         except Exception as err:
             raise CustomValidation(err, 'detail', status_code=status.HTTP_400_BAD_REQUEST)

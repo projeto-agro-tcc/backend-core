@@ -14,7 +14,7 @@ class EmpresaService:
     def from_dto(objDto):
         error = EmpresaService.validate_empresa(objDto)
         if error:
-            raise CustomValidation(error, 'detail', status_code=status.HTTP_409_CONFLICT)
+            raise Exception(error)
 
         try:
             empresa = Empresa()
