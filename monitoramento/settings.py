@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-i1&v#t3h4ndjonlekuxh^3y+7%h*@(b&ej780tjvd$(+voiluc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['backend-core-env.eba-tm9q638y.sa-east-1.elasticbeanstalk.com']
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
@@ -59,8 +59,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
-    'backend-core-env.eba-tm9q638y.sa-east-1.elasticbeanstalk.com'
+    'http://localhost:4200'
 ]
 
 ROOT_URLCONF = 'monitoramento.urls'
