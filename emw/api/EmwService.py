@@ -42,10 +42,10 @@ class EmwService:
             estacao = Estacao.objects.filter(serial_number=dev_id).first()
             time_to_end += "000000"
             response = requests.get(API_IA +
-                                    "?timetoend=" + time_to_end +
+                                    "lstmforecast/get_forecast?timetoend=" + time_to_end +
                                     "&dev_id=" + dev_id +
                                     "&var=" + colection +
-                                    "&estacaomodelo=" + estacao.estacao_modelo.code +
+                                    "&model=" + estacao.estacao_modelo.code +
                                     "&typeforecast=" + type_forecast)
             return response
 
