@@ -40,7 +40,7 @@ class EmwService:
     def getPrediction(self, time_to_end, dev_id, colection, type_forecast):
         try:
             estacao = Estacao.objects.filter(serial_number=dev_id).first()
-            time_to_end += "000000"
+            # time_to_end += "000000"
             response = requests.get(API_IA +
                                     "lstmforecast/get_forecast?timetoend=" + time_to_end +
                                     "&dev_id=" + dev_id +
