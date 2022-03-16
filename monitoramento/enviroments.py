@@ -2,7 +2,7 @@ API_IOT = 'http://backend-iot-env.eba-prhv4rz9.sa-east-1.elasticbeanstalk.com/'
 #API_IOT = 'http://127.0.0.1:8888/'
 
 #API_IA = 'http://127.0.0.1:8801/'
-API_IA = 'http://backend-ai-env.eba-p58uytsh.sa-east-1.elasticbeanstalk.com/'
+API_IA = 'http://backend-ai-env.eba-ztr6zsmy.sa-east-1.elasticbeanstalk.com/'
 
 #Database aws
 database = {
